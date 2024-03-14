@@ -28,6 +28,8 @@ namespace ApiAlerts.Common.Services
             {
                 defaultApiKey = apiKey;
                 _requestHandler.AddHeader("Authorization", $"Bearer {defaultApiKey}");
+                _requestHandler.AddHeader("INTEGRATION_NAME", "dotnet");
+                _requestHandler.AddHeader("INTEGRATION_VERSION", "1.0.0");
             }
         }
 
