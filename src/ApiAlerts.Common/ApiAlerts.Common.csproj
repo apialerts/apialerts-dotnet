@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApiUtilities.Common" Version="1.0.10" />
+    <PackageReference Include="ApiUtilities.Common" Version="1.0.9" />
   </ItemGroup>
 
 </Project>
