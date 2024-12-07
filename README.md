@@ -1,24 +1,28 @@
-# ApiAlerts NuGet Package
+# apialerts-dotnet
 
-## Overview
+C# client for the [apialerts.com](https://apialerts.com/) platform
+
+[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/ApiAlerts.Common)
+
+### Overview
+
 The ApiAlerts NuGet package simplifies the process of setting up and managing alerts within your API projects. It provides functionalities to activate the package with an API key and offers methods for publishing alerts asynchronously and synchronously.
 
-## Installation
+### Installation
 To install the ApiAlerts package, simply use NuGet Package Manager or the Package Manager Console:
 
 ````bash
 PM> Install-Package ApiAlerts
 ````
 
-## Getting Started
-### 1. Activation
-Before utilizing any functionalities of the ApiAlerts package, you must activate it by providing the API key obtained from the Magpie Mobile App.
+### Initialize the client
 
 ````csharp
-ApiAlerts.Activate(apiKey);
+ApiAlerts.Activate(yourApiKey);
 ````
 
-### 2. Publishing Alerts
+### Send Events
+
 To publish alerts, you'll utilize the IAlertService interface.
 
 #### Synchronous Method
@@ -42,5 +46,3 @@ await alertService.PublishAlertAsync(alert, optionalApiKey);
 ## Contributing
 Contributions to the ApiAlerts package are welcome! If you find any issues or have suggestions for improvements, please open an issue on the GitHub repository or submit a pull request.
 
-## License
-This package is licensed under the MIT License. Feel free to use, modify, and distribute it as per the terms of the license.
