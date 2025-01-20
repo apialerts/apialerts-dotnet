@@ -1,4 +1,5 @@
-﻿using ApiAlerts.Common.Interfaces;
+﻿using ApiAlerts.Common.Configurations;
+using ApiAlerts.Common.Interfaces;
 using ApiAlerts.Common.Models;
 using ApiUtilities.Common.Interfaces;
 using ApiUtilities.Common.Services;
@@ -21,8 +22,8 @@ namespace ApiAlerts.Common.Services
             {
                 defaultApiKey = apiKey;
                 _requestHandler.AddHeader("Authorization", $"Bearer {defaultApiKey}");
-                _requestHandler.AddHeader("X-Integration", "dotnet");
-                _requestHandler.AddHeader("X-Version", "1.0.1");
+                _requestHandler.AddHeader("X-Integration", Constants.Integration);
+                _requestHandler.AddHeader("X-Version", Constants.Version);
             }
         }
 
