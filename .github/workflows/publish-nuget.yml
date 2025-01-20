@@ -1,9 +1,8 @@
-name: Pull Request
+name: Publish
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
     
 jobs:
   build:
@@ -22,3 +21,5 @@ jobs:
         run: dotnet test src/ApiAlerts.Common/ApiAlerts.Common.csproj --no-build --verbosity normal
       - name: Pack NuGets
         run: dotnet pack -c Release src/ApiAlerts.Common/ApiAlerts.Common.csproj --no-build --output .
+      - name: Push to NuGet
+        run: dotnet nuget push "*.nupkg" --api-key ${{secrets.nuget_api_key}} --source https://api.nuget.org/v3/index.json
