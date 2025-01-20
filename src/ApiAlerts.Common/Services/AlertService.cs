@@ -1,14 +1,7 @@
 ﻿using ApiAlerts.Common.Interfaces;
 using ApiAlerts.Common.Models;
-using ApiUtilities.Common.Handlers;
 using ApiUtilities.Common.Interfaces;
 using ApiUtilities.Common.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiAlerts.Common.Services
 {

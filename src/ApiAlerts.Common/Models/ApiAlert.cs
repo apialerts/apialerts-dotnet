@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ApiAlerts.Common.Models
+﻿namespace ApiAlerts.Common.Models
 {
     public class ApiAlert
     {
@@ -18,7 +11,7 @@ namespace ApiAlerts.Common.Models
         /// <summary>
         /// Required: false
         /// Limit: Up to 10 tags at 50 characters per tag.
-        /// Notes: Non compliant tags will be dropped from the event.
+        /// Notes: Non-compliant tags will be dropped from the event.
         /// </summary>
         public List<string> tags { get; set; }
 
