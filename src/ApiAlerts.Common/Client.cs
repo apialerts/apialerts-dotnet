@@ -51,10 +51,9 @@ internal class Client : IClient
             {
                 _logger.Warning(error);
             }
+            return;
         }
-        else
-        {
-            _logger.Error(result.Error?.Message ?? "Unknown error");
-        }
+        
+        _logger.Error(result.Error?.Message ?? "Unknown error");
     }
 }

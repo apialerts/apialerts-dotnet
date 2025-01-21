@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ApiAlerts.Common.network;
 
-public static class Json
+internal static class Json
 {
     internal static readonly JsonSerializerOptions JsonOptions = new()
     {
