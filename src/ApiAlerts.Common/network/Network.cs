@@ -1,6 +1,6 @@
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using ApiAlerts.Common.network.contract;
 using ApiAlerts.Common.util;
 
@@ -9,17 +9,12 @@ namespace ApiAlerts.Common.network;
 internal class Network
 {
     private readonly HttpClient _httpClient;
-    private readonly JsonSerializerOptions _jsonOptions;
 
     internal Network(HttpClient? httpClient = null)
     {
         _httpClient = httpClient ?? new HttpClient
         {
             BaseAddress = new Uri(Constants.BaseUrl)
-        };
-        _jsonOptions = new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
     }
 
@@ -34,33 +29,34 @@ internal class Network
 
             if (payload != null)
             {
-                request.Content = JsonContent.Create(payload, options: _jsonOptions);
+                request.Content = JsonContent.Create(payload, options: Json.JsonOptions);
             }
 
             var response = await _httpClient.SendAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
 
-            if (response.IsSuccessStatusCode)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var result = JsonSerializer.Deserialize<T>(content, _jsonOptions);
-                if (result != null)
+                var success = await response.Content.ReadFromJsonAsync<T>(Json.JsonOptions);
+                if (success != null)
                 {
-                    return Result<T>.Success(result);
+                    return Result<T>.Success(success);
                 }
             }
-
-            var error = JsonSerializer.Deserialize<ErrorResponse>(content, _jsonOptions);
-            if (error != null)
-            {
-                return Result<T>.Failure(error);
-            }
-
-            var fallback = new ErrorResponse { Message = $"Server responded with {(int)response.StatusCode}" };
-            return Result<T>.Failure(fallback);
+            
+            var error = await response.Content.ReadFromJsonAsync<ErrorResponse>(Json.JsonOptions);
+            return Result<T>.Failure(error ?? new ErrorResponse { Message = "Unknown response" });
+        }
+        catch (JsonException)
+        {
+            return Result<T>.Failure(new ErrorResponse { Message = "Failed to deserialize response" });
+        }
+        catch (TaskCanceledException)
+        {
+            return Result<T>.Failure(new ErrorResponse { Message = "Request cancelled" });
         }
         catch (Exception ex)
         {
-            return Result<T>.Failure(new ErrorResponse { Message = ex.Message });
+            return Result<T>.Failure(new ErrorResponse { Message = $"Unknown error: {ex.Message}" });
         }
     }
 }

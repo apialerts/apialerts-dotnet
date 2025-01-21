@@ -1,8 +1,8 @@
 namespace ApiAlerts.Common;
 
-public static class Constants
+internal static class Constants
 {
-    public const string BaseUrl = "https://api.apialerts.com";
-    public const string IntegrationName = "dotnet";
-    public const string Version = "1.1.0";
+    internal const string BaseUrl = "https://api.apialerts.com";
+    internal const string IntegrationName = "dotnet";
+    internal const string Version = "1.1.0";
 }

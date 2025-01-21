@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAlerts.Common", "src\ApiAlerts.Common\ApiAlerts.Common.csproj", "{DB9AA57B-BCDB-4229-B562-E9AAF493323B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAlerts.Tests", "tests\ApiAlerts.Tests\ApiAlerts.Tests.csproj", "{9A20F2E2-5CAC-443A-AC48-8A8A6456076B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAlerts.Common.Tests", "tests\ApiAlerts.Common.Tests\ApiAlerts.Common.Tests.csproj", "{9A20F2E2-5CAC-443A-AC48-8A8A6456076B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
