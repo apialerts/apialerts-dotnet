@@ -1,3 +1,4 @@
+using ApiAlerts.Common.models;
 using ApiAlerts.Common.Tests.mocks;
 using Xunit;
 
@@ -23,9 +24,16 @@ public class ApiAlertsTests
         var mockClient = new MockClient();
         ApiAlerts.SetClient(mockClient);
 
-        ApiAlerts.Send(message: "test message");
-
+        var alert = new AlertEvent
+        {
+            Message = "test message"
+        };
+        ApiAlerts.Send(alert);
         Assert.Null(mockClient.SentApiKey);
+        
+        ApiAlerts.SendWithApiKey("test-api-key", alert);
+        
+        Assert.Equal("test-api-key", mockClient.SentApiKey);
         Assert.Null(mockClient.SentChannel);
         Assert.Equal("test message", mockClient.SentMessage);
         Assert.Null(mockClient.SentTags);
@@ -38,9 +46,16 @@ public class ApiAlertsTests
         var mockClient = new MockClient();
         ApiAlerts.SetClient(mockClient);
 
-        await ApiAlerts.SendAsync(message: "test message");
-
+        var alert = new AlertEvent
+        {
+            Message = "test message"
+        };
+        await ApiAlerts.SendAsync(alert);
         Assert.Null(mockClient.SentApiKey);
+
+        await ApiAlerts.SendWithApiKeyAsync("test-api-key", alert);
+        
+        Assert.Equal("test-api-key", mockClient.SentApiKey);
         Assert.Null(mockClient.SentChannel);
         Assert.Equal("test message", mockClient.SentMessage);
         Assert.Null(mockClient.SentTags);

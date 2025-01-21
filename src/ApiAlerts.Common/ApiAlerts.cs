@@ -1,3 +1,5 @@
+using ApiAlerts.Common.models;
+
 namespace ApiAlerts.Common;
 
 /// <summary>
@@ -26,28 +28,41 @@ public static class ApiAlerts
     /// <summary>
     /// Sends an event synchronously in the background.
     /// </summary>
-    /// <param name="apiKey">Optional API key override for a single send request. If null, the default API key is used.</param>
-    /// <param name="channel">The channel to send the alert to. If null, the default channel is used.</param>
-    /// <param name="message">The message to send. Cannot be null or empty.</param>
-    /// <param name="tags">A list of tags to include with the event. If null, no tags are included.</param>
-    /// <param name="link">A link to include with the event. If null, no link is included.</param>
-    public static void Send(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null)
+    /// <param name="alert">The event to send. Cannot be null.</param>
+    public static void Send(AlertEvent alert)
     {
-        Task.Run(() => _defaultClient.Value.SendAsync(apiKey, channel, message, tags, link)).Wait();
+        Task.Run(() => _defaultClient.Value.SendAsync(null, alert)).Wait();
+    }
+    
+    /// <summary>
+    /// Sends an event synchronously in the background.
+    /// </summary>
+    /// <param name="apiKey">API key override for a single send request.</param>
+    /// <param name="alert">The event to send. Cannot be null.</param>
+    public static void SendWithApiKey(string apiKey, AlertEvent alert)
+    {
+        Task.Run(() => _defaultClient.Value.SendAsync(apiKey, alert)).Wait();
     }
 
     /// <summary>
     /// Sends an event asynchronously and waits for the result. Useful in serverless or script environments. Serverside should use Send()
     /// </summary>
-    /// <param name="apiKey">Optional API key override for a single send request. If null, the default API key is used.</param>
-    /// <param name="channel">The workspace channel to send the alert to. If null, the default channel is used.</param>
-    /// <param name="message">The message to send. Cannot be null or empty.</param>
-    /// <param name="tags">A list of tags to include with the event. If null, no tags are included.</param>
-    /// <param name="link">A link to include with the event. If null, no link is included.</param>
+    /// <param name="alert">The event to send. Cannot be null.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public static async Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null)
+    public static async Task SendAsync(AlertEvent alert)
     {
-        await _defaultClient.Value.SendAsync(apiKey, channel, message, tags, link);
+        await _defaultClient.Value.SendAsync(null, alert);
+    }
+
+    /// <summary>
+    /// Sends an event asynchronously and waits for the result. Useful in serverless or script environments. Serverside should use Send()
+    /// </summary>
+    /// <param name="apiKey">API key override for a single send request.</param>
+    /// <param name="alert">The event to send. Cannot be null.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public static async Task SendWithApiKeyAsync(string apiKey, AlertEvent alert)
+    {
+        await _defaultClient.Value.SendAsync(apiKey, alert);
     }
         
 }

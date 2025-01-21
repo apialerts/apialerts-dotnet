@@ -1,3 +1,4 @@
+using ApiAlerts.Common.models;
 using ApiAlerts.Common.network;
 using ApiAlerts.Common.util;
 
@@ -6,7 +7,7 @@ namespace ApiAlerts.Common;
 internal interface IClient
 {
     void Configure(string apiKey, bool debug = false);
-    Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null);
+    Task SendAsync(string? apiKey, AlertEvent model);
 }
 
 internal class Client : IClient
@@ -26,7 +27,7 @@ internal class Client : IClient
         _logger.Configure(debug);
     }
 
-    public async Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null)
+    public async Task SendAsync(string? apiKey, AlertEvent model)
     {
         var useKey = apiKey ?? _defaultApiKey;
 
@@ -36,13 +37,13 @@ internal class Client : IClient
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(message))
+        if (string.IsNullOrWhiteSpace(model.Message))
         {
             _logger.Error("Message is required");
             return;
         }
 
-        var result = await _endpoints.SendEvent(useKey, channel, message, tags, link);
+        var result = await _endpoints.SendEvent(useKey, model);
         if (result.IsSuccess)
         {
             _logger.Success($"Alert sent to {result.Data?.Workspace ?? "?"} ({result.Data?.Channel ?? "?"}) successfully.");

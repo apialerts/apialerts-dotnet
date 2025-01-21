@@ -1,4 +1,5 @@
 using System.Net;
+using ApiAlerts.Common.models;
 using ApiAlerts.Common.util;
 using ApiAlerts.Common.Tests.mocks;
 using Xunit;
@@ -35,7 +36,11 @@ namespace ApiAlerts.Common.Tests
             var loggerField = typeof(Client).GetField("_logger", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             loggerField?.SetValue(client, logger);
 
-            await client.SendAsync(message: "test message");
+            var alert = new AlertEvent
+            {
+                Message = "test message"
+            };
+            await client.SendAsync(null, alert);
 
             Assert.Contains("Alert sent to my-workspace (my-channel) successfully.", logger.Logs);
         }
@@ -47,8 +52,12 @@ namespace ApiAlerts.Common.Tests
             var logger = new TestLogger();
             var loggerField = typeof(Client).GetField("_logger", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             loggerField?.SetValue(client, logger);
-
-            await client.SendAsync(message: "test message");
+            
+            var alert = new AlertEvent
+            {
+                Message = "test message"
+            };
+            await client.SendAsync(null, alert);
 
             Assert.Contains("API Key not provided. Use Configure() to set a default key, or pass the key as a parameter to the Send/SendAsync function.", logger.Logs);
         }
@@ -63,7 +72,11 @@ namespace ApiAlerts.Common.Tests
             var loggerField = typeof(Client).GetField("_logger", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             loggerField?.SetValue(client, logger);
 
-            await client.SendAsync(message: "");
+            var alert = new AlertEvent
+            {
+                Message = ""
+            };
+            await client.SendAsync(null, alert);
 
             Assert.Contains("Message is required", logger.Logs);
         }
@@ -81,7 +94,11 @@ namespace ApiAlerts.Common.Tests
             var loggerField = typeof(Client).GetField("_logger", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             loggerField?.SetValue(client, logger);
 
-            await client.SendAsync(message: "test message");
+            var alert = new AlertEvent
+            {
+                Message = "test message"
+            };
+            await client.SendAsync(null, alert);
 
             Assert.Contains("Bad Request", logger.Logs);
         }

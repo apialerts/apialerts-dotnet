@@ -1,3 +1,5 @@
+using ApiAlerts.Common.models;
+
 namespace ApiAlerts.Common.Tests.mocks;
 
 internal class MockClient : IClient
@@ -16,14 +18,13 @@ internal class MockClient : IClient
         Debug = debug;
     }
 
-    public Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null,
-        string? link = null)
+    public Task SendAsync(string? apiKey, AlertEvent alert)
     {
         SentApiKey = apiKey;
-        SentChannel = channel;
-        SentMessage = message;
-        SentTags = tags;
-        SentLink = link;
+        SentChannel = alert.Channel;
+        SentMessage = alert.Message;
+        SentTags = alert.Tags;
+        SentLink = alert.Link;
         return Task.CompletedTask;
     }
 }

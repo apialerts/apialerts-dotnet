@@ -1,4 +1,5 @@
 using System.Net;
+using ApiAlerts.Common.models;
 using ApiAlerts.Common.network;
 using ApiAlerts.Common.Tests.mocks;
 using Xunit;
@@ -14,14 +15,17 @@ public class EndpointsTests
         const string response = "{\"workspace\":\"my-workspace\",\"channel\":\"my-channel\",\"errors\":[\"no\",\"errors\",\"here\"],\"extra\":\"property\"}";
         
         const string apiKey = "test-api-key";
-        const string channel = "test-channel";
-        const string message = "test message";
-        var tags = new List<string> { "tag1", "tag2" };
-        const string link = "https://example.com";
+        var alert = new AlertEvent
+        {
+            Message = "test message",
+            Channel = "test-channel",
+            Link = "https://example.com",
+            Tags = new List<string> { "tag1", "tag2" }
+        };
 
         var network = MockHttp.Client(statusCode, response);
         var endpoints = new Endpoints(network);
-        var result = await endpoints.SendEvent(apiKey, channel, message, tags, link);
+        var result = await endpoints.SendEvent(apiKey, alert);
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Data);
@@ -41,14 +45,17 @@ public class EndpointsTests
         const string response = "{\"message\":\"Bad Request\"}";
         
         const string apiKey = "test-api-key";
-        const string channel = "test-channel";
-        const string message = "test message";
-        var tags = new List<string> { "tag1", "tag2" };
-        const string link = "https://example.com";
+        var alert = new AlertEvent
+        {
+            Message = "test message",
+            Channel = "test-channel",
+            Link = "https://example.com",
+            Tags = new List<string> { "tag1", "tag2" }
+        };
 
         var network = MockHttp.Client(statusCode, response);
         var endpoints = new Endpoints(network);
-        var result = await endpoints.SendEvent(apiKey, channel, message, tags, link);
+        var result = await endpoints.SendEvent(apiKey, alert);
 
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Error);
@@ -62,14 +69,17 @@ public class EndpointsTests
         const string response = "{\"message\":\"Invalid API Key\"}";
         
         const string apiKey = "test-api-key";
-        const string channel = "test-channel";
-        const string message = "test message";
-        var tags = new List<string> { "tag1", "tag2" };
-        const string link = "https://example.com";
+        var alert = new AlertEvent
+        {
+            Message = "test message",
+            Channel = "test-channel",
+            Link = "https://example.com",
+            Tags = new List<string> { "tag1", "tag2" }
+        };
 
         var network = MockHttp.Client(statusCode, response);
         var endpoints = new Endpoints(network);
-        var result = await endpoints.SendEvent(apiKey, channel, message, tags, link);
+        var result = await endpoints.SendEvent(apiKey, alert);
 
         Assert.False(result.IsSuccess);
         Assert.NotNull(result.Error);
