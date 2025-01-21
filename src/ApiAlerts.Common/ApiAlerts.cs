@@ -6,8 +6,14 @@ namespace ApiAlerts.Common;
 /// </summary>
 public static class ApiAlerts
 {
-    private static readonly Lazy<IClient> DefaultClient = 
-        new(() => new Client());
+    private static Lazy<IClient> _defaultClient = new(() => new Client());
+    
+    /// <summary>
+    /// Sets a custom client for testing purposes.
+    /// </summary>
+    /// <param name="client">The custom client to use.</param>
+    internal static void SetClient(IClient client) =>
+        _defaultClient = new Lazy<IClient>(() => client);
 
     /// <summary>
     /// Configures the ApiAlerts client with the specified API key and debug mode.
@@ -15,7 +21,7 @@ public static class ApiAlerts
     /// <param name="apiKey">The default API key to use in all requests.</param>
     /// <param name="debug">Set true to enable debug logging.</param>
     public static void Configure(string apiKey, bool debug = false) =>
-        DefaultClient.Value.Configure(apiKey, debug);
+        _defaultClient.Value.Configure(apiKey, debug);
 
     /// <summary>
     /// Sends an event synchronously in the background.
@@ -27,7 +33,7 @@ public static class ApiAlerts
     /// <param name="link">A link to include with the event. If null, no link is included.</param>
     public static void Send(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null)
     {
-        Task.Run(() => DefaultClient.Value.SendAsync(apiKey, channel, message, tags, link)).Wait();
+        Task.Run(() => _defaultClient.Value.SendAsync(apiKey, channel, message, tags, link)).Wait();
     }
 
     /// <summary>
@@ -41,7 +47,7 @@ public static class ApiAlerts
     /// <returns>A task that represents the asynchronous operation.</returns>
     public static async Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null)
     {
-        await DefaultClient.Value.SendAsync(apiKey, channel, message, tags, link);
+        await _defaultClient.Value.SendAsync(apiKey, channel, message, tags, link);
     }
         
 }

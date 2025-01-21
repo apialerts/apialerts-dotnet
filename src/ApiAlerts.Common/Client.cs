@@ -5,8 +5,8 @@ namespace ApiAlerts.Common;
 
 internal interface IClient
 {
-    internal void Configure(string apiKey, bool debug = false);
-    internal Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null);
+    void Configure(string apiKey, bool debug = false);
+    Task SendAsync(string? apiKey = null, string? channel = null, string message = "", List<string>? tags = null, string? link = null);
 }
 
 internal class Client : IClient

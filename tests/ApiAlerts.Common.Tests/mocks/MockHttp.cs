@@ -3,7 +3,7 @@ using ApiAlerts.Common.network;
 
 namespace ApiAlerts.Common.Tests.mocks;
 
-static class MockHttp
+internal static class MockHttp
 {
     public static HttpClient Client(HttpStatusCode statusCode, string response)
     {
@@ -18,7 +18,7 @@ static class MockHttp
     }
 }
 
-class MockHttpMessageHandler : HttpMessageHandler
+internal class MockHttpMessageHandler : HttpMessageHandler
 {
     private readonly HttpStatusCode _statusCode;
     private readonly string _responseContent;
