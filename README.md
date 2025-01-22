@@ -2,14 +2,15 @@
 
 C# client for the [apialerts.com](https://apialerts.com/) platform
 
-[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/ApiAlerts.Common)
+[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/APIAlerts)
 
 ### Overview
 
 The ApiAlerts NuGet package simplifies the process of setting up and managing alerts within your API projects. It provides functionalities to activate the package with an API key and offers methods for publishing alerts asynchronously and synchronously.
 
 ### Installation
-To install the ApiAlerts package, simply use NuGet Package Manager or the Package Manager Console:
+
+API Alerts is available as a NuGet package. You can install it using the following command:
 
 ````bash
 PM> Install-Package ApiAlerts
@@ -17,32 +18,43 @@ PM> Install-Package ApiAlerts
 
 ### Initialize the client
 
+The client is implemented as a singleton, ensuring that only one instance is created and used throughout the application.
+
+
 ````csharp
-ApiAlerts.Activate(yourApiKey);
+// Initialise the ApiAlerts client with your API key
+ApiAlerts.Configure(yourApiKey);
+
+// You can enable debug mode to see logs messages using the additional debug parameter
+ApiAlerts.Configure(yourApiKey, true);
 ````
 
 ### Send Events
 
-To publish alerts, you'll utilize the IAlertService interface.
+You can send alerts by constructing the AlertEvent class and passing it to the Send() function.
 
-#### Synchronous Method
-You can publish an alert synchronously using the PublishAlert method, which takes an ApiAlert object and an optional API key.
+```csharp
+var alert = new AlertEvent("Test message")
+{
+    Message = "My alert message",               // required
+    Channel = "my-channel-identifier",          // optional, uses the default channel if not provided
+    Tags = new List<string> { "tag1", "tag2" }, // optional
+    Link = "https://example.com"                // optional
+};
 
-````csharp
-var alert = new ApiAlert { /* alert properties */ };
-IAlertService alertService = new AlertService(); // Instantiate or inject IAlertService
-alertService.PublishAlert(alert, optionalApiKey);
-````
+ApiAlerts.Send(alert);
+```
 
-#### Asynchronous Method
-Alternatively, you can publish an alert asynchronously using the PublishAlertAsync method, which also takes an ApiAlert object and an optional API key.
+The ApiAlerts.SendAsync() methods are also available if you need to wait for a successful execution. However, the Send() functions are generally always preferred.
 
-````csharp
-var alert = new ApiAlert { /* alert properties */ };
-IAlertService alertService = new AlertService(); // Instantiate or inject IAlertService
-await alertService.PublishAlertAsync(alert, optionalApiKey);
-````
+### Send with API Key functions
 
-## Contributing
-Contributions to the ApiAlerts package are welcome! If you find any issues or have suggestions for improvements, please open an issue on the GitHub repository or submit a pull request.
+You may have the need to talk to different API Alerts workspaces in your application. You can use the SendWithApiKey() functions to send alerts to override the default API key for that single send call.
 
+```csharp
+ApiAlerts.SendWithApiKey("other_api_key", alert);
+```
+
+### Feedback & Support
+
+If you have any questions or feedback, please create an issue on our GitHub repository. We are always looking to improve our service and would love to hear from you. Thanks for using API Alerts!
