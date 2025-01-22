@@ -2,7 +2,7 @@
 
 C# client for the [apialerts.com](https://apialerts.com/) platform
 
-[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/ApiAlerts.Common)
+[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/APIAlerts)
 
 ### Overview
 
