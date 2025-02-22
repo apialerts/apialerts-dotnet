@@ -1,8 +1,8 @@
-# apialerts-dotnet
+# API Alerts • Dotnet Client
 
-C# client for the [apialerts.com](https://apialerts.com/) platform
+NOTE: This repo has been superseded by [apialerts-csharp](https://github.com/apialerts/apialerts-csharp)
 
-[Docs](https://apialerts.com/docs/dotnet) • [GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/ApiAlerts.Common)
+[GitHub](https://github.com/apialerts/apialerts-dotnet) • [Nuget](https://www.nuget.org/packages/ApiAlerts.Common)
 
 ### Overview
 
@@ -42,7 +42,3 @@ var alert = new ApiAlert { /* alert properties */ };
 IAlertService alertService = new AlertService(); // Instantiate or inject IAlertService
 await alertService.PublishAlertAsync(alert, optionalApiKey);
 ````
-
-## Contributing
-Contributions to the ApiAlerts package are welcome! If you find any issues or have suggestions for improvements, please open an issue on the GitHub repository or submit a pull request.
-
